@@ -5,7 +5,7 @@
     "main": "index.js",
     "author": "nhanle1862@gmail.com",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon src/app.js",
+        "dev": "cross-env NODE_ENV=development node src/app.js",
         "start": "cross-env NODE_ENV=development nodemon src/app.js",
         "test": "jest --detectOpenHandles --maxWorkers=1 --no-cache --watchAll",
         "test:watch": "npm run test -- --watch"
