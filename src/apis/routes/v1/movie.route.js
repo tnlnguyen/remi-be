@@ -7,7 +7,7 @@ const validate = require('../../../middlewares/validate')
 const router = express.Router()
 const authenticateMiddleware = require('../../../middlewares/auth')
 
-router.get('/', movieController.login)
+router.get('/', movieController.getMovie)
 router.post('/share', authenticateMiddleware, validate(movieValidation.shareSchema), movieController.shareMovie)
 
 module.exports = router

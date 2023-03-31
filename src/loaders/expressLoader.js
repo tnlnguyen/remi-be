@@ -10,47 +10,47 @@ const { errorConverter, errorHandler } = require('../middlewares/error')
 const routeConfig = require('../apis/routes')
 
 module.exports = () => {
-    const app = express()
+  const app = express()
 
-    // set log request
-    app.use(morgan('dev'))
+  // set log request
+  app.use(morgan('dev'))
 
-    // set security HTTP headers
-    app.use(helmet())
+  // set security HTTP headers
+  app.use(helmet())
 
-    // parse json request body
-    app.use(express.json({ limit: '50mb' }))
+  // parse json request body
+  app.use(express.json({ limit: '50mb' }))
 
-    // parse urlencoded request body
-    app.use(express.urlencoded({ extended: true }))
+  // parse urlencoded request body
+  app.use(express.urlencoded({ extended: true }))
 
-    // sanitize request data
-    app.use(xss())
-    app.use(mongoSanitize())
+  // sanitize request data
+  app.use(xss())
+  app.use(mongoSanitize())
 
-    // gzip compression
-    app.use(compression())
+  // gzip compression
+  app.use(compression())
 
-    // set cors blocked resources
-    app.use(cors())
-    app.options('*', cors())
-    app.disable('etag')
+  // set cors blocked resources
+  app.use(cors())
+  app.options('*', cors())
+  app.disable('etag')
 
-    // setup limits
-    if (env.isProduction) {
-        // app.use('/v1/auth', customizeLimiter)
-    }
+  // setup limits
+  if (env.isProduction) {
+    // app.use('/v1/auth', customizeLimiter)
+  }
 
-    // api routes
-    app.use(env.app.routePrefix, routeConfig)
+  // api routes
+  app.use(env.app.routePrefix, routeConfig)
 
-    // convert error to ApiError, if needed
-    app.use(errorConverter)
+  // convert error to ApiError, if needed
+  app.use(errorConverter)
 
-    // handle error
-    app.use(errorHandler)
+  // handle error
+  app.use(errorHandler)
 
-    app.listen(env.app.port)
+  const server = app.listen(env.app.port)
 
-    return app
+  return { app, server }
 }

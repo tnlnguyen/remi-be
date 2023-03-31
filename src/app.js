@@ -10,19 +10,19 @@ const log = new Logger(__filename)
 
 // Init loaders
 async function initApp() {
-    // logging
-    winstonLoader()
+  // logging
+  winstonLoader()
 
-    // Database
-    await mongooseLoader()
+  // Database
+  await mongooseLoader()
 
-    // express
-    const app = expressLoader()
+  // express
+  const { app, server } = expressLoader()
 
-    // swagger
-    swaggerLoader(app)
+  // swagger
+  swaggerLoader(app)
 }
 
 initApp()
-    .then(() => bannerLogger(log))
-    .catch((error) => log.error('Application is crashed: ' + error))
+  .then(() => bannerLogger(log))
+  .catch((error) => log.error('Application is crashed: ' + error))

@@ -17,18 +17,26 @@ const createUser = async (userBody) => {
 
 const login = async (email, password) => {
     const user = await getUserByEmail(email)
-    if (!user || !(await user.isPasswordMatch(password))) {
+    
+    if (!user) {
+        const user = await createUser({email, password})
+
+        return user
+    }
+
+    if (!(await user.isPasswordMatch(password))) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password')
     }
+
     return user
 }
 
 const getUserByEmail = async (email) => {
-    return await User.findOne({ email }).populate('role')
+    return await User.findOne({ email })
 }
 
 const getUserById = async (id) => {
-    return await User.findOne({ _id: id }).populate('role')
+    return await User.findOne({ _id: id })
 }
 
 const logout = async (refreshToken) => {
